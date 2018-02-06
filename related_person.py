@@ -4,6 +4,7 @@
 :Date: 2017-12-09
 :Copyright: 2017-2018, Arthur Goldberg
 :License: MIT
+: Hannah's Version
 """
 
 class Error( Exception ):
@@ -105,7 +106,7 @@ class RelatedPerson( object ):
 
     def __repr__( self ):
         """ Provide a string representation of this related person"""
-        return "<RelatedPerson at {}: name: {}; gender: {}>".format( 
+        return "<RelatedPerson at {}: name: {}; gender: {}>".format(
             str( id( self ) ),
             self.name,
             self.gender
@@ -197,10 +198,10 @@ class RelatedPerson( object ):
             ancestors graph would be created
         """
         if self.gender not in [Gender.FEMALE, Gender.MALE]:
-            raise RelatedPersonError( "cannot add child to related person named '{}' with unknown gender".format( 
+            raise RelatedPersonError( "cannot add child to related person named '{}' with unknown gender".format(
                 self.name ) )
         if child in self.all_ancestors(  ):
-            raise RelatedPersonError( "making '{}' a child of '{}', would create ancestor cycle".format( 
+            raise RelatedPersonError( "making '{}' a child of '{}', would create ancestor cycle".format(
                 child.name, self.name ) )
         if self.gender == Gender.FEMALE:
             child.set_father( self )
@@ -230,7 +231,7 @@ class RelatedPerson( object ):
         """
         if max_depth is not None:
             if max_depth < min_depth:
-                    raise RelatedPersonError( "max_depth ( {} ) cannot be less than min_depth ( {} )".format( 
+                    raise RelatedPersonError( "max_depth ( {} ) cannot be less than min_depth ( {} )".format(
                         max_depth, min_depth ) )
         else:
             # collect just one depth
