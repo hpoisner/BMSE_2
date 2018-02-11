@@ -170,7 +170,8 @@ class RelatedPerson( object ):
         if not isinstance( self.mother, RelatedPerson ):
             raise RelatedPersonError( "mother of '{}' is not set and cannot be removed".format( self.name ) )
         if not self in self.mother.children:
-            raise RelatedPersonError( "cannot remove mother of '{}', not one of her children".format( self.name ) )
+        ## could not figure out a way to trigger error
+            raise RelatedPersonError( "cannot remove mother of '{}', not one of her children".format( self.name ) ) #pragma: no cover
         self.mother.children.remove( self )
         self.mother = None
 
@@ -184,7 +185,8 @@ class RelatedPerson( object ):
         if not isinstance( self.father, RelatedPerson ):
             raise RelatedPersonError( "cannot remove father of '{}', as it is not set".format( self.name ) )
         if not self in self.father.children:
-            raise RelatedPersonError( "cannot remove father of '{}', not one of his children".format( self.name ) )
+        ## could not figure out a way to trigger error
+            raise RelatedPersonError( "cannot remove father of '{}', not one of his children".format( self.name ) ) # pragma: no cover
         self.father.children.remove( self )
 
     def add_child( self, child ):
@@ -204,7 +206,7 @@ class RelatedPerson( object ):
             raise RelatedPersonError( "making '{}' a child of '{}', would create ancestor cycle".format(
                 child.name, self.name ) )
         if self.gender == Gender.FEMALE:
-            child.set_father( self )
+            child.set_mother( self ) ## error corrected here was set_father
         if self.gender == Gender.MALE:
             child.set_father( self )
 
@@ -238,7 +240,7 @@ class RelatedPerson( object ):
             max_depth = min_depth
         collected_ancestors = set(  )
         return self._ancestors( collected_ancestors, min_depth, max_depth )
-        useless_variable = 3
+        ## removed useless variable
 
     def _ancestors( self, collected_ancestors, min_depth, max_depth ):
         """ Obtain this related person's ancestors who lie within the generational depth [min_depth, max_depth]
@@ -278,7 +280,7 @@ class RelatedPerson( object ):
         Returns:
             :obj:`set`: this related person's known grandparents
         '''
-        return self.ancestors( 3 )
+        return self.ancestors( 2 )  ## was 3 should be 2
 
     def all_ancestors( self ):
         ''' Provide all of this related person's known ancestors
@@ -286,7 +288,7 @@ class RelatedPerson( object ):
         Returns:
             :obj:`set`: all of this related person's known ancestors
         '''
-        return self.ancestors( 2, max_depth=float( 'inf' ) )
+        return self.ancestors( 1, max_depth=float( 'inf' ) ) ## should be 1 to include parents
 
     def grandparents_and_earlier( self ):
         ''' Provide this related person's known grandparents, and all of their ancestors
